@@ -7,7 +7,6 @@ import {
     defaultErrorMessage,
     httpCreatedCode,
     HttpInternalErrorCode,
-    HttpNoContent,
     httpSucessCode
 } from '../constants';
 import { CacheRepository } from '../database/repositories';
@@ -16,27 +15,30 @@ export default class ErrandController {
     async index(request: Request, response: Response) {
         const { id } = request.params;
         const service = new ErrandService();
-        const cacheRepository = new CacheRepository()
+        const cacheRepository = new CacheRepository();
 
         try {
-            const cache = await cacheRepository.find(`errand:${id}`)
+            const cache = await cacheRepository.get(`errand:${id}`);
 
             if (cache) {
-                return response.status(201).json(cache)             
+                return response.status(201).json(cache);
             }
 
-            const errands = (await service.find()).filter(user => user.userId === parseInt(id));
-            const json = errands.map(user => {
+            const errands = (await service.find()).filter(
+                (user) => user.userId === parseInt(id)
+            );
+
+            const json = errands.map((user) => {
                 return {
                     errands: user.errands,
                     userId: user.userId,
-                    id: user.id,
-                }
+                    id: user.id
+                };
             });
 
-            await cacheRepository.save(`errand:${id}`, json);
+            await cacheRepository.setEx(`errand:${id}`, json, 60 * 20);
 
-            return response.status(httpSucessCode).json(json);
+            return response.json(json);
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }
@@ -48,14 +50,16 @@ export default class ErrandController {
         const cacheRepository = new CacheRepository();
 
         try {
-            await service.create({
+            const errand = await service.create({
                 errands,
                 userId
             });
 
             await cacheRepository.delete(`errand:${userId}`);
 
-            return response.status(httpCreatedCode).json(createMessage('Criado'));
+            return response
+                .status(httpCreatedCode)
+                .json(createMessage('Criado'));
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }
@@ -68,36 +72,37 @@ export default class ErrandController {
         const cacheRepository = new CacheRepository();
 
         try {
-            const errand = await service.update({
+            await service.update({
                 id: parseInt(id),
                 errands,
                 userId
             });
 
-            await cacheRepository.delete(`errand:${userId}`)
-            
-            return response.status(httpCreatedCode).json(createMessage('Editado'));
+            await cacheRepository.delete(`errand:${userId}`);
+
+            return response
+                .status(httpCreatedCode)
+                .json(createMessage('Editado'));
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }
     }
 
     async delete(request: Request, response: Response) {
-        const { id } = request.params;
-        const { userId } = request.body;
-        const cacheRepository = new CacheRepository();
-        
-        const service = new ErrandService();
+        const { id, userId } = request.params;
 
-        try {    
+        const service = new ErrandService();
+        const cacheRepository = new CacheRepository();
+
+        try {
             await service.delete(parseInt(id));
 
-            await cacheRepository.delete(`errand:${userId}`);
+            await cacheRepository.delete(`errand:${parseInt(userId)}`);
 
-            return response.json(createMessage('Deletado'));
-
+            return response
+                .status(httpSucessCode)
+                .json(createMessage('Deletado'));
         } catch (error) {
-            
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }
     }

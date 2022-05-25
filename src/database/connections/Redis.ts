@@ -1,10 +1,10 @@
-import IORedis from "ioredis";
+import IORedis from 'ioredis';
 import 'dotenv/config';
 
 export default class Redis {
     private static instance: IORedis.Redis;
 
-    private constructor() { }
+    private constructor() {}
 
     static getInstance() {
         if (!Redis.instance) {
@@ -12,7 +12,7 @@ export default class Redis {
             Redis.instance = redis.openConnection();
         }
 
-        return Redis.instance
+        return Redis.instance;
     }
 
     private openConnection() {
