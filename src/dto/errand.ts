@@ -1,5 +1,5 @@
 export type ErrandDTO = {
-    id?: number,
-    errands: string,
-    userId: number  
-}
+    id?: number;
+    errands: string;
+    userId: number;
+};

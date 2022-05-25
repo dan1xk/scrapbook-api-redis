@@ -8,18 +8,20 @@ export class CacheRepository {
         this.redis = Redis.getInstance();
     }
 
-    async save(key: string, value: any) {
-        return await this.redis.set(key, JSON.stringify(value));
+    async set(key: string, value: any) {
+        await this.redis.set(key, JSON.stringify(value));
     }
 
-    async saveExpiration(key: string, value: any, ttl: number) {
-        return await this.redis.set(key, JSON.stringify(value), 'EX', ttl);
+    async setEx(key: string, value: any, ttl: number) {
+        await this.redis.set(key, JSON.stringify(value), "EX", 15);
     }
 
-    async find(key: string) {
-        const value = await this.redis.get(key);
+    async get(key: string): Promise<any> {
+        const result = await this.redis.get(key);
 
-        return value ? JSON.parse(value) : null;
+        if (result === null) return undefined;
+
+        return JSON.parse(result);
     }
 
     async delete(key: string) {

@@ -1,5 +1,5 @@
-import { ErrandRepository } from "../database/repositories";
-import { ErrandDTO } from "../dto";
+import { ErrandRepository } from '../database/repositories';
+import { ErrandDTO } from '../dto';
 
 export class ErrandService {
     async find() {
@@ -12,7 +12,7 @@ export class ErrandService {
     async create(errandDTO: ErrandDTO) {
         const repository = new ErrandRepository();
         const errand = await repository.create(errandDTO);
-        
+
         return errand;
     }
 

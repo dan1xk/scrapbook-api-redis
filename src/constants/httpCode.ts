@@ -3,4 +3,3 @@ export const httpCreatedCode = 201;
 export const HttpBadRequestCode = 400;
 export const HttpInternalErrorCode = 500;
 export const HttpNoContent = 204;
-

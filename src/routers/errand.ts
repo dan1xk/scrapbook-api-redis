@@ -1,6 +1,6 @@
-import { Router } from "express";
-import ErrandController from "../controllers/errand";
-import { verifyCreateErrand } from "../middlewares";
+import { Router } from 'express';
+import ErrandController from '../controllers/errand';
+import { verifyCreateErrand } from '../middlewares';
 
 export default class ErrandRoutes {
     init() {
@@ -10,7 +10,7 @@ export default class ErrandRoutes {
         routes.get('/errand/:id', controller.index);
         routes.post('/errand', [verifyCreateErrand], controller.store);
         routes.put('/errand/:id', controller.update);
-        routes.delete('/errand/:id', controller.delete);
+        routes.delete('/errand/:id/:userId', controller.delete);
 
         return routes;
     }

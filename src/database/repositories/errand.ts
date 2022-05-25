@@ -26,5 +26,6 @@ export class ErrandRepository {
 
     async delete(errandID: number) {
         await ErrandEntity.delete(errandID);
+        
     }
 }

@@ -2,7 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import { field, HttpBadRequestCode } from '../constants';
 
 export function verifyField(request: Request, response: Response, next: NextFunction) {
-    const { name, password } = request.body
+    const { name, password } = request.body;
 
     if (!name) {
         return response.status(HttpBadRequestCode).json(field('Nome'));
@@ -12,5 +12,5 @@ export function verifyField(request: Request, response: Response, next: NextFunc
         return response.status(HttpBadRequestCode).json(field('Senha'));
     }
 
-    next()
+    next();
 }

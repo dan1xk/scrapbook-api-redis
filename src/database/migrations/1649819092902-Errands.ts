@@ -1,9 +1,14 @@
-import { MigrationInterface, QueryRunner, Table, TableForeignKey } from "typeorm";
+import {
+    MigrationInterface,
+    QueryRunner,
+    Table,
+    TableForeignKey
+} from 'typeorm';
 
 export class Errands1649819092902 implements MigrationInterface {
-
     public async up(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.createTable(new Table({
+        await queryRunner.createTable(
+            new Table({
                 name: 'scrapbook.errands',
                 columns: [
                     {
@@ -32,12 +37,10 @@ export class Errands1649819092902 implements MigrationInterface {
                     })
                 ]
             })
-        )
+        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('scrapbook.errands')
+        await queryRunner.dropTable('scrapbook.errands');
     }
-
 }
-

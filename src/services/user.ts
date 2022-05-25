@@ -1,5 +1,5 @@
-import { UserRepository } from "../database/repositories";
-import { UserDTO } from "../dto";
+import { UserRepository } from '../database/repositories';
+import { UserDTO } from '../dto';
 
 export class UserService {
     async find() {
@@ -18,23 +18,22 @@ export class UserService {
 
     async create(userDTO: UserDTO) {
         const repository = new UserRepository();
-        
+
         if (userDTO.name.length >= 3 && userDTO.password.length >= 4) {
-            return  await repository.create(userDTO);
-        }     
+            return await repository.create(userDTO);
+        }
     }
 
     async update(userDTO: UserDTO) {
         const repository = new UserRepository();
-        
+
         if (userDTO.name.length >= 3 && userDTO.password.length >= 4) {
-            return  await repository.update(userDTO);
-        }  
+            return await repository.update(userDTO);
+        }
     }
 
     async delete(userID: number) {
         const repository = new UserRepository();
         await repository.delete(userID);
     }
-
 }

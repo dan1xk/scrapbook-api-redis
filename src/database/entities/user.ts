@@ -1,7 +1,7 @@
-import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import { ErrandEntity } from "./errand";
+import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
+import { ErrandEntity } from './errand';
 
-@Entity({ name: "scrapbook.users" })
+@Entity({ name: 'scrapbook.users' })
 export class UserEntity extends BaseEntity {
     @PrimaryColumn()
     id?: Number;
@@ -11,11 +11,11 @@ export class UserEntity extends BaseEntity {
 
     @Column()
     password: String;
-    
-    @OneToMany(type => ErrandEntity, errands => errands.user)
+
+    @OneToMany((type) => ErrandEntity, (errands) => errands.user)
     errands?: ErrandEntity[];
 
-    constructor(name: String,  password: String) {
+    constructor(name: String, password: String) {
         super();
         this.name = name;
         this.password = password;

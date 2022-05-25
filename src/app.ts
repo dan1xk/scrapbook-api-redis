@@ -13,7 +13,7 @@ export default class Application {
         this.#express = express();
     }
 
-    async init() {        
+    async init() {
         this.config();
         this.routers();
         this.errors();
@@ -28,7 +28,7 @@ export default class Application {
 
     start(port: number) {
         this.#express.listen(port, () => {
-            console.log(`A aplicação está rodando na porta ${port}...`); 
+            console.log(`A aplicação está rodando na porta ${port}...`);
         });
     }
 
@@ -54,4 +54,4 @@ export default class Application {
     private async database() {
         await Database.getInstance();
     }
-};
+}
