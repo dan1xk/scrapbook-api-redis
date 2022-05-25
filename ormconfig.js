@@ -10,13 +10,13 @@ module.exports = {
         }
     },
     migrations: [
-        'src/database/migrations/**/*'
+        'dist/database/migrations/**/*.js'
     ],
     entities: [
-        'src/database/entities/**/*'
+        'dist/database/entities/**/*.js'
     ],
     cli: {
-        entitiesDir: 'src/database/entities',
-        migrationsDir: 'src/database/migrations'
+        entitiesDir: 'dist/database/entities',
+        migrationsDir: 'dist/database/migrations'
     }
 };
