@@ -1,20 +1,23 @@
 import { Request, Response } from 'express';
 import { UserService } from '../services';
 import { HttpError } from '../errors';
+import bcrypt from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 
 import {
     createMessage,
     defaultErrorMessage,
+    field,
+    HttpBadRequestCode,
     httpCreatedCode,
-    HttpInternalErrorCode
+    HttpInternalErrorCode,
 } from '../constants';
 
 export default class UserController {
-    async index(request: Request, response: Response) {
-        const service = new UserService();
-
+    index(request: Request, response: Response) {
         try {
-            return response.json(await service.find());
+            return response.send({ userID: request.userId });
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }
@@ -27,12 +30,47 @@ export default class UserController {
         try {
             await service.create({
                 name: name,
-                password: password
+                password: password,
             });
 
             return response
                 .status(httpCreatedCode)
                 .json(createMessage('Criado'));
+        } catch (error) {
+            throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
+        }
+    }
+
+    async authenticate(request: Request, response: Response) {
+        const { name, password } = request.body;
+        const service = new UserService();
+        const user = await service.findOne({ where: { name } });
+
+        if (!user) {
+            return response
+                .status(HttpBadRequestCode)
+                .json({ message: field('Usuário') });
+        }
+
+        const isValidPassword = await bcrypt.compare(password, user.password);
+
+        if (!isValidPassword) {
+            return response
+                .status(HttpBadRequestCode)
+                .json({ message: field('Senha') });
+        }
+        try {
+            const token = jwt.sign(
+                { id: user.id },
+                process.env.JWT_SECRET as string,
+                { expiresIn: process.env.JWT_EXPIRES }
+            );
+
+            return response.json({
+                id: user.id,
+                name: user.name,
+                token,
+            });
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);
         }

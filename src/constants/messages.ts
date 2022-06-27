@@ -7,6 +7,7 @@ export const createMessage = (action: string) => {
 export const fieldSize = (field: string, length: number) =>
     `${field} precisa ter mais de ${length} caracteres.`;
 
-export const field = (field: string) => {
-    return { message: `Preencha o campo ${field}` };
-};
+export function field(field: string) {
+    return { message: `${field} não está correto` };
+}
+

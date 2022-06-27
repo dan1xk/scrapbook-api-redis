@@ -3,9 +3,7 @@ import cors from 'cors';
 import Database from './database/connections/Database';
 import UserRoutes from './routers/user';
 import ErrandRoutes from './routers/errand';
-import LoginRoutes from './routers/login';
 import { HttpError } from './errors/httpError';
-
 export default class Application {
     readonly #express: express.Application;
 
@@ -51,9 +49,6 @@ export default class Application {
 
         const errandRouter = new ErrandRoutes().init();
         this.#express.use(errandRouter);
-
-        const LoginRouter = new LoginRoutes().init();
-        this.#express.use(LoginRouter);
     }
 
     private async database() {

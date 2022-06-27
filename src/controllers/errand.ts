@@ -7,7 +7,7 @@ import {
     defaultErrorMessage,
     httpCreatedCode,
     HttpInternalErrorCode,
-    httpSucessCode
+    httpSucessCode,
 } from '../constants';
 import { CacheRepository } from '../database/repositories';
 
@@ -21,7 +21,7 @@ export default class ErrandController {
             const cache = await cacheRepository.get(`errand:${id}`);
 
             if (cache) {
-                return response.status(201).json(cache);
+                return response.status(httpSucessCode).json(cache);
             }
 
             const errands = (await service.find()).filter(
@@ -32,7 +32,7 @@ export default class ErrandController {
                 return {
                     errands: user.errands,
                     userId: user.userId,
-                    id: user.id
+                    id: user.id,
                 };
             });
 
@@ -52,7 +52,7 @@ export default class ErrandController {
         try {
             const errand = await service.create({
                 errands,
-                userId
+                userId,
             });
 
             await cacheRepository.delete(`errand:${userId}`);
@@ -75,7 +75,7 @@ export default class ErrandController {
             await service.update({
                 id: parseInt(id),
                 errands,
-                userId
+                userId,
             });
 
             await cacheRepository.delete(`errand:${userId}`);

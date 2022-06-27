@@ -1,4 +1,4 @@
-import configJest from "./jest.config";
+import configJest from './jest.config';
 
 export const config = {
     ...configJest,

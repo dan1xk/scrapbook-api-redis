@@ -9,7 +9,7 @@ export class UserService {
         return user;
     }
 
-    async findOne(id: number) {
+    async findOne(id: any) {
         const repository = new UserRepository();
         const user = await repository.findOne(id);
 

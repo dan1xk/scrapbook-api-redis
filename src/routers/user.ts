@@ -1,14 +1,16 @@
 import { Router } from "express";
 import UserController from "../controllers/user";
-import { checkRegistration, verifyField} from '../middlewares';
+import { checkRegistration, authMiddleware} from '../middlewares';
 
 export default class UserRoutes {
     init() {
         const routes = Router();
         const controller = new UserController();
 
-        routes.post('/user', [verifyField, checkRegistration], controller.store);
-        routes.get('/user', controller.index);
+        routes.post('/auth', controller.authenticate);
+        routes.post('/user',  checkRegistration, controller.store);
+        routes.get('/user', authMiddleware, controller.index);
+
         
         return routes;
     }

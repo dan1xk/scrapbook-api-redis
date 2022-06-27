@@ -1,4 +1,3 @@
 export * from './userMiddleware';
-export * from './global';
-export * from './loginMiddleware';
+export * from './authMiddleware';
 export * from './errandMiddleware';
