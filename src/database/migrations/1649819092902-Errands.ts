@@ -25,7 +25,7 @@ export class Errands1649819092902 implements MigrationInterface {
                     },
                     {
                         name: 'user_id',
-                        type: 'int',
+                        type: 'uuid',
                         isNullable: false
                     }
                 ],
@@ -41,6 +41,6 @@ export class Errands1649819092902 implements MigrationInterface {
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
-        await queryRunner.dropTable('scrapbook.errands');
+        await queryRunner.dropTable('scrapbook.errands', true, true, true);
     }
 }

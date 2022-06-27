@@ -1,7 +1,7 @@
 import { BaseEntity, Column, Entity, OneToMany, PrimaryColumn } from 'typeorm';
 import { ErrandEntity } from './errand';
 
-@Entity({ name: 'scrapbook.users' })
+@Entity({ name: 'scrapbook.user' })
 export class UserEntity extends BaseEntity {
     @PrimaryColumn()
     id?: Number;
