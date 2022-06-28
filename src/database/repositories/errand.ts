@@ -1,14 +1,18 @@
-import { ErrandDTO } from "../../dto";
-import { ErrandEntity } from "../entities/errand";
+import { ErrandDTO } from '../../dto';
+import { ErrandEntity } from '../entities/errand';
 
 export class ErrandRepository {
-    async find() {
-        const errands = await ErrandEntity.find();
+    async find(id: string) {
+        const errands = await ErrandEntity.find({ where: { userId: id } });
+
         return errands;
     }
 
     async create(errandDTO: ErrandDTO) {
-        const errand = await new ErrandEntity(errandDTO.errands, errandDTO.userId);
+        const errand = await new ErrandEntity(
+            errandDTO.errands,
+            errandDTO.userId
+        );
         errand.save();
         return errand;
     }
@@ -26,6 +30,5 @@ export class ErrandRepository {
 
     async delete(errandID: number) {
         await ErrandEntity.delete(errandID);
-        
     }
 }

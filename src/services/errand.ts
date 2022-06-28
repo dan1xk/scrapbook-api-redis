@@ -2,9 +2,9 @@ import { ErrandRepository } from '../database/repositories';
 import { ErrandDTO } from '../dto';
 
 export class ErrandService {
-    async find() {
+    async find(id: string) {
         const repository = new ErrandRepository();
-        const errand = await repository.find();
+        const errand = await repository.find(id);
 
         return errand;
     }

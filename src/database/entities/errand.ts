@@ -17,13 +17,13 @@ export class ErrandEntity extends BaseEntity {
     errands: string;
 
     @Column({ name: 'user_id' })
-    userId?: number;
+    userId?: string;
 
     @ManyToOne((type) => UserEntity, (user) => user.errands)
     @JoinColumn({ name: 'user_id', referencedColumnName: 'id' })
     user?: UserEntity;
 
-    constructor(errands: string, userID: number) {
+    constructor(errands: string, userID: string) {
         super();
         this.errands = errands;
         this.userId = userID;
