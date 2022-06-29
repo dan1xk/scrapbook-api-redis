@@ -42,34 +42,20 @@ export default class UserController {
     }
 
     async authenticate(request: Request, response: Response) {
-        const { name, password } = request.body;
+        const { name } = request.body;
         const service = new UserService();
         const user = await service.findOne({ where: { name } });
 
-        if (!user) {
-            return response
-                .status(HttpBadRequestCode)
-                .json({ message: field('Usuário') });
-        }
-
-        const isValidPassword = await bcrypt.compare(password, user.password);
-
-        if (!isValidPassword) {
-            return response
-                .status(HttpBadRequestCode)
-                .json({ message: field('Senha') });
-        }
         try {
             const token = jwt.sign(
-                { id: user.id },
+                { id: user?.id },
                 process.env.JWT_SECRET as string,
                 { expiresIn: process.env.JWT_EXPIRES }
             );
 
             return response.json({
-                id: user.id,
-                name: user.name,
-                token,
+                message: 'Logado com sucesso',
+                token
             });
         } catch (error) {
             throw new HttpError(defaultErrorMessage, HttpInternalErrorCode);

@@ -1,1 +1,0 @@
-// retirar verificações do controller e transferir aqui
