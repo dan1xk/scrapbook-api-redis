@@ -3,12 +3,3 @@
 ## Scrapbooking system with postgres and redis (API)
 
 > Status: Finished ✅
-
-#### Scraps
-
-*  Create
-*  Read
-*  Update
-*  Delete 
-
-> Deployed on Heroku: <a href="https://scrapbookcachefront.herokuapp.com" target="_blank">ScrapBook</a>
